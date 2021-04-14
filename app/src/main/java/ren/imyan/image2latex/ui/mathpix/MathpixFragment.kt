@@ -20,7 +20,7 @@ import ren.imyan.image2latex.databinding.FragmentMathpixBinding
  */
 class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>() {
 
-    private val shortAnimationDuration by lazy{
+    private val shortAnimationDuration by lazy {
         context?.resources?.getInteger(android.R.integer.config_shortAnimTime)
     }
 
@@ -35,15 +35,13 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
     override fun initView() {
 
         val selectImage = registerForActivityResult(ActivityResultContracts.GetContent()) {
-            val bitmap = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(it))
-            binding.apply {
-
-                selectImageCard.visibility = View.GONE
-
-                showImageCard.apply {
-                    visibility = View.VISIBLE
+            it?.let{
+                val bitmap = BitmapFactory.decodeStream(context?.contentResolver?.openInputStream(it))
+                binding.apply {
+                    selectImageCard.hideViewAnim()
+                    showImageCard.showViewAnim()
+                    showImage.setImageBitmap(bitmap)
                 }
-                showImage.setImageBitmap(bitmap)
             }
         }
 
@@ -53,27 +51,34 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
 
         binding.removeImage.setOnClickListener {
             binding.apply {
-                showImageCard.animate()
-                    .alpha(0f)
-                    .setDuration(shortAnimationDuration!!.toLong())
-                    .setListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            selectImageCard.visibility = View.GONE
-                        }
-                    })
-
-                selectImageCard.apply {
-                    alpha = 0f
-                    visibility = View.VISIBLE
-                    animate()
-                        .alpha(1f)
-                        .setDuration(shortAnimationDuration!!.toLong())
-                        .setListener(null)
-                }
+                showImageCard.hideViewAnim()
+                selectImageCard.showViewAnim()
             }
         }
     }
 
     override fun loadDate() {
+    }
+
+    private fun View.hideViewAnim() {
+        this.animate()
+            .alpha(0f)
+            .setDuration(shortAnimationDuration!!.toLong())
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    this@hideViewAnim.visibility = View.GONE
+                }
+            })
+    }
+
+    private fun View.showViewAnim() {
+        this.apply {
+            alpha = 0f
+            visibility = View.VISIBLE
+            animate()
+                .alpha(1f)
+                .setDuration(shortAnimationDuration!!.toLong())
+                .setListener(null)
+        }
     }
 }
