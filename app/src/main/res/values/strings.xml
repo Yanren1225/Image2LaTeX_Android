@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Image To LaTeX</string>
+    <string name="image_title">点击选择一张图片</string>
+    <string name="bottom_nav_mathpix">Mathpix</string>
+    <string name="bottom_nav_history">历史</string>
+    <string name="bottom_nav_setting">设置</string>
+    <string name="remove_image">移除</string>
+    <string name="process_image">处理</string>
 </resources>

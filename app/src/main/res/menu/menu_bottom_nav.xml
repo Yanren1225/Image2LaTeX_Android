@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/bottom_nav_mathpix"
+        android:icon="@drawable/ic_mathpix"
+        android:title="@string/bottom_nav_mathpix" />
+
+    <item
+        android:id="@+id/bottom_nav_history"
+        android:icon="@drawable/ic_history"
+        android:title="@string/bottom_nav_history" />
+
+    <item
+        android:id="@+id/bottom_nav_setting"
+        android:icon="@drawable/ic_setting"
+        android:title="@string/bottom_nav_setting" />
+</menu>
