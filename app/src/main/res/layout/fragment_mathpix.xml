@@ -10,47 +10,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?attr/colorOnPrimary"
         android:fitsSystemWindows="true">
-
-        <RelativeLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="10dp"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:fitsSystemWindows="true">
-
-            <ImageView
-                android:id="@+id/app_icon"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:contentDescription="@string/app_name" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_toEndOf="@id/app_icon"
-                android:contentDescription="@string/app_name"
-                android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="20sp"
-                tools:ignore="RelativeOverlap" />
-
-        </RelativeLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/select_image_card"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/app_bar_layout"
             android:layout_margin="8dp"
             android:layout_marginStart="@dimen/card_margin_horizontal_big_activity"
             android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
@@ -93,13 +60,13 @@
             android:id="@+id/show_image_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/app_bar_layout"
             android:layout_margin="8dp"
             android:layout_marginStart="@dimen/card_margin_horizontal_big_activity"
             android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
             android:layout_marginEnd="@dimen/card_margin_horizontal_big_activity"
             android:layout_marginBottom="@dimen/card_margin_vertical_big_activity"
             android:visibility="gone"
+            android:layout_centerInParent="true"
             app:cardElevation="0dp"
             app:strokeColor="@color/stroke_color"
             app:strokeWidth="2dp">
@@ -120,7 +87,8 @@
                 android:layout_margin="16dp"
                 android:background="@drawable/show_image_button_layout_shape"
                 android:orientation="horizontal"
-                android:padding="4dp">
+                android:padding="4dp"
+                android:visibility="gone">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/remove_image"

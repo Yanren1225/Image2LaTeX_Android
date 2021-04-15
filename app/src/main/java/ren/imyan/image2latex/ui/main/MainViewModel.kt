@@ -2,6 +2,7 @@ package ren.imyan.image2latex.ui.main
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import ren.imyan.image2latex.ui.SettingFragment
 import ren.imyan.image2latex.ui.mathpix.MathpixFragment
 
 /**
@@ -25,7 +26,7 @@ class MainViewModel : ViewModel() {
     private fun loadFragments(): ArrayList<Fragment> =
         arrayListOf(
             MathpixFragment(),
-            Fragment(),
-            Fragment()
+            SettingFragment(),
+            SettingFragment()
         )
 }

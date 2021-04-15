@@ -1,5 +1,7 @@
 package ren.imyan.image2latex.ui.mathpix
 
+import android.graphics.Bitmap
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 /**
@@ -8,4 +10,5 @@ import androidx.lifecycle.ViewModel
  * @website https://imyan.ren
  */
 class MathpixViewModel : ViewModel() {
+    val bitmap = MutableLiveData<Bitmap>()
 }

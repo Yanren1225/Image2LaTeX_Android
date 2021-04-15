@@ -1,15 +1,13 @@
 package ren.imyan.base
 
-import android.content.res.Resources
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import android.view.View
+import android.util.TypedValue
+import android.view.Window
+import android.view.WindowManager
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModel
 import androidx.viewbinding.ViewBinding
-import ren.imyan.base.util.QMUIStatusBarHelper
 
 
 abstract class BaseUIActivity<viewBinding : ViewBinding, viewModel : ViewModel> : BaseActivity() {
@@ -38,8 +36,13 @@ abstract class BaseUIActivity<viewBinding : ViewBinding, viewModel : ViewModel> 
         if (isSetView) {
             setContentView(binding.root)
         }
-        QMUIStatusBarHelper.translucent(this)
-        QMUIStatusBarHelper.setStatusBarLightMode(this)
+        if (isSetToolbar) {
+            setSupportActionBar(initToolbar().first)
+            when (val title = initToolbar().second) {
+                is String -> setToolBarTitle(title)
+                is Int -> setToolBarTitle(title)
+            }
+        }
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            window?.decorView?.let {
 //                it.systemUiVisibility = (it.systemUiVisibility
@@ -68,7 +71,7 @@ abstract class BaseUIActivity<viewBinding : ViewBinding, viewModel : ViewModel> 
 
     abstract fun initBinding(): viewBinding
 
-//    abstract fun initToolbar(): Pair<Toolbar, *>
+    abstract fun initToolbar(): Pair<Toolbar, *>
 
     fun setToolBarTitle(@StringRes titleId: Int) {
         supportActionBar?.setTitle(titleId);
@@ -76,6 +79,12 @@ abstract class BaseUIActivity<viewBinding : ViewBinding, viewModel : ViewModel> 
 
     fun setToolBarTitle(title: CharSequence) {
         supportActionBar?.title = title;
+    }
+
+    fun getThemeColorFromId(id: Int): Int {
+        val typedValue = TypedValue()
+        theme.resolveAttribute(id, typedValue, true)
+        return typedValue.data
     }
 
 //    @RequiresApi(Build.VERSION_CODES.N)

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Image2LaTeX.Toolbar" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:background">?attr/colorOnPrimary</item>
+        <item name="android:popupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="elevation">4dp</item>
+    </style>
+</resources>
