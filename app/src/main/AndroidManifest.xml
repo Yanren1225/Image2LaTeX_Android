@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ren.imyan.image2latex">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".core.App"
         android:allowBackup="true"
@@ -18,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.about.AboutActivity" />
     </application>
 
 </manifest>

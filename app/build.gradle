@@ -64,6 +64,12 @@ dependencies {
     kapt "androidx.room:room-compiler:2.2.6"
     implementation "androidx.room:room-ktx:2.2.6"
 
+    // 占位符
+    implementation 'com.ethanhua:skeleton:1.1.2'
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+
+    // LaTeX
+    implementation 'com.github.daquexian:FlexibleRichTextView:0.8.2'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

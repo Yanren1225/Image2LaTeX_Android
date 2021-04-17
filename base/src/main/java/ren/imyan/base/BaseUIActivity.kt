@@ -1,8 +1,12 @@
 package ren.imyan.base
 
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.View
 import android.view.Window
+import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
@@ -41,6 +45,22 @@ abstract class BaseUIActivity<viewBinding : ViewBinding, viewModel : ViewModel> 
             when (val title = initToolbar().second) {
                 is String -> setToolBarTitle(title)
                 is Int -> setToolBarTitle(title)
+            }
+        }
+        window.apply {
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = getThemeColorFromId(R.attr.colorOnPrimary)
+            navigationBarColor = getThemeColorFromId(R.attr.colorSurface)
+
+            if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK != Configuration.UI_MODE_NIGHT_YES) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    insetsController?.setSystemBarsAppearance(
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
+                        WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                    )
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                }
             }
         }
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

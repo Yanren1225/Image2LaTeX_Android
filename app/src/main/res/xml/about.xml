@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:key="Open Source Licenses"
+        app:title="@string/Open_Source_Licenses" />
+
+    <Preference
+        app:key="project home"
+        app:title="@string/project_home_page"/>
+
+    <Preference
+        app:key="developer"
+        app:title="@string/developer"
+        />
+
+</PreferenceScreen>

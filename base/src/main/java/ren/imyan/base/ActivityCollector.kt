@@ -19,7 +19,8 @@ object ActivityCollector {
     fun removeActivity(activity: Activity) = activities.remove(activity)
 
     @JvmStatic
-    fun currActivity(): Activity = activities.lastElement()
+    val currActivity: Activity
+        get() = activities.lastElement()
 
     @JvmStatic
     fun finishByName(cls: Activity?) {

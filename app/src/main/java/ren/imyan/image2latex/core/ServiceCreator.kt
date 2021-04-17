@@ -1,11 +1,10 @@
 package ren.imyan.image2latex.core
 
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.Request
+import ren.imyan.image2latex.util.SP
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
 
 /**
  * @author EndureBlaze/炎忍 https://github.com.EndureBlaze
@@ -13,11 +12,29 @@ import java.util.concurrent.TimeUnit
  * @website https://imyan.ren
  */
 object ServiceCreator {
-    private const val BASE_URL = "https://api.mathpix.com/v3/text"
+    private const val BASE_URL = "https://api.mathpix.com/"
+
+    private val appID by SP.string("app_id", "nihaocun_163_com_259b93_37802c")
+    private val appKey by SP.string("app_key", "ee18226cd53bbe00d2b3")
+
+    private val okHttpClient = OkHttpClient.Builder()
+        .addInterceptor {
+            val original: Request = it.request()
+
+            val request = original.newBuilder()
+                .header("app_id", appID)
+                .header("app_key", appKey)
+                .header("Content-Type", "application/json; charset=utf-8")
+                .method(original.method, original.body)
+                .build()
+
+            it.proceed(request)
+        }.build()
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
+        .client(okHttpClient)
         .build()
 
     fun <T> create(serviceClass: Class<T>): T = retrofit.create(serviceClass)

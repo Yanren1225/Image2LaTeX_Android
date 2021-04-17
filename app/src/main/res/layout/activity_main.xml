@@ -33,7 +33,6 @@
             android:layout_gravity="bottom"
             android:textStyle="bold"
             app:labelVisibilityMode="labeled"
-            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             app:menu="@menu/menu_bottom_nav" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

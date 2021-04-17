@@ -1,12 +1,8 @@
 package ren.imyan.image2latex.core
 
-import android.app.Activity
 import android.app.Application
 import android.content.Context
-import ren.imyan.base.ActivityCollector
-
-val currActivity: Activity
-    get() = ActivityCollector.currActivity()
+import org.scilab.forge.jlatexmath.core.AjLatexMath
 
 class App : Application() {
     companion object {
@@ -16,5 +12,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
+        AjLatexMath.init(this)
     }
 }
