@@ -19,8 +19,8 @@ gradlew assembleDebug
 
 ## TODO：
 
-- [ ] 基本的图像上传处理
-- [ ] LaTeX 预览
+- [x] 基本的图像上传处理
+- [x] LaTeX 预览
 - [ ] 更多请求时选项
 - [ ] 多个 API Key 切换
 - [ ] 图像裁剪处理
