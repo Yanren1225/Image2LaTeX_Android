@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:text="Text"
+        android:text="LaTeX "
         android:textAppearance="?attr/textAppearanceHeadline1"
         android:textColor="?android:attr/textColorHint"
         android:textStyle="bold|italic"
@@ -21,10 +21,10 @@
         android:id="@+id/result_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="testtesttest"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="123123123123123132"
         android:textAppearance="?attr/textAppearanceHeadline5"
-        android:textColor="?android:attr/textColorPrimary"
-        android:textStyle="bold" />
+        android:textColor="?android:attr/textColorPrimary" />
 
-</RelativeLayout>
+</FrameLayout>

@@ -14,16 +14,11 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 object ServiceCreator {
     private const val BASE_URL = "https://api.mathpix.com/"
 
-    private val appID by SP.string("app_id", "nihaocun_163_com_259b93_37802c")
-    private val appKey by SP.string("app_key", "ee18226cd53bbe00d2b3")
-
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor {
             val original: Request = it.request()
 
             val request = original.newBuilder()
-                .header("app_id", appID)
-                .header("app_key", appKey)
                 .header("Content-Type", "application/json; charset=utf-8")
                 .method(original.method, original.body)
                 .build()

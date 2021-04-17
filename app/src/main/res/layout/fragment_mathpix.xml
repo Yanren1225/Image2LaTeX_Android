@@ -211,6 +211,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/show_result_error_card"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -218,6 +219,7 @@
                     android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
                     android:layout_marginEnd="@dimen/card_margin_horizontal_big_activity"
                     android:layout_marginBottom="@dimen/card_margin_vertical_big_activity"
+                    android:background="?attr/selectableItemBackground"
                     android:visibility="gone"
                     app:cardElevation="0dp"
                     app:strokeColor="@color/stroke_color"

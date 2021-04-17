@@ -15,4 +15,5 @@
     <string name="cancel">取消</string>
     <string name="get_api_key">获取一个 API Key</string>
     <string name="no_set">当前未设置</string>
+    <string name="request">点击卡片重试</string>
 </resources>

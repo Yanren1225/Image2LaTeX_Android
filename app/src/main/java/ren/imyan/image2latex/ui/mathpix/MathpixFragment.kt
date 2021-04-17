@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +40,9 @@ import ren.imyan.image2latex.core.CropImage
 import ren.imyan.image2latex.core.CropImageResult
 import ren.imyan.image2latex.databinding.FragmentMathpixBinding
 import ren.imyan.image2latex.ui.main.MainActivity
+import ren.imyan.image2latex.util.SP
 import ren.imyan.image2latex.util.dp
+import ren.imyan.image2latex.util.string
 
 /**
  * @author EndureBlaze/炎忍 https://github.com/EndureBlaze
@@ -58,7 +61,7 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
 
     private val fadeAnim by lazy {
         MaterialFade().apply {
-            duration = shortAnimationDuration!!
+            duration = shortAnimationDuration
         }
     }
 
@@ -92,6 +95,12 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
             duration = shortAnimationDuration
         })
 
+        TransitionManager.beginDelayedTransition(
+            binding.showImageButtonLayout,
+            MaterialFade().apply {
+                duration = shortAnimationDuration
+            })
+
 
         val cropImage =
             registerForActivityResult(CropImage()) {
@@ -122,8 +131,15 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
             viewModel.getMathpixData()
             binding.showResultCard()
         }
+
+        binding.showResultErrorCard.setOnClickListener {
+            it.isVisible = false
+            viewModel.getMathpixData()
+            binding.showResultCard()
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun loadDate() {
         viewModel.bitmap.observe(this) {
             binding.apply {
@@ -137,8 +153,12 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
 
         viewModel.mathpixData.data.observe(this) {
             binding.apply {
+                resultText.gravity = Gravity.CENTER
+                resultLatex.gravity = Gravity.CENTER
+
                 resultText.text = it.text
-                resultLatex.setText(it.latexStyled)
+                resultLatex.setText("$$${it.latexStyled}$$")
+
                 resultLatexSkeletonScreen.hide()
                 resultTextSkeletonScreen.hide()
             }
@@ -149,7 +169,9 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
                 showResultLatexCard.isVisible = false
                 showResultTextCard.isVisible = false
                 showResultErrorCard.isVisible = true
-                resultError.text = it
+
+                resultError.gravity = Gravity.CENTER
+                resultError.text = "$it\n${R.string.request.string()}"
             }
         }
     }
@@ -226,8 +248,10 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
 //        binding.resultText.text = """
 //            \( \lim _{x \rightarrow 3}\left(\frac{x^{2}+9}{x-3}\right) \)
 //        """.trimIndent()
+
 //        binding.resultLatex.setText("$$\\lim _{x \\rightarrow 3}\\left(\\frac{x^{2}+9}{x-3}\\right)$$")
 
+        showImageButtonLayout.isVisible = false
 
         showResultTextCard.isVisible = true
 

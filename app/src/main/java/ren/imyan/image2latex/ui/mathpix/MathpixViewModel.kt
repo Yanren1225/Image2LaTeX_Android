@@ -15,6 +15,7 @@ import ren.imyan.image2latex.data.model.ConvertData
 import ren.imyan.image2latex.data.model.moshi.MathpixRequest
 import ren.imyan.image2latex.data.model.moshi.MathpixResponse
 import ren.imyan.image2latex.data.retrofit.MathpixService
+import ren.imyan.image2latex.util.SP
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +28,10 @@ import java.io.ByteArrayOutputStream
  * @website https://imyan.ren
  */
 class MathpixViewModel : ViewModel() {
+
+    private val appID by SP.string("app_id", "", "ren.imyan.image2latex_preferences")
+    private val appKey by SP.string("app_key", "", "ren.imyan.image2latex_preferences")
+
     val bitmap = MutableLiveData<Bitmap>()
 
     val mathpixData: ConvertData<MathpixResponse>
@@ -37,30 +42,36 @@ class MathpixViewModel : ViewModel() {
     fun getMathpixData() {
         val mathpixService = ServiceCreator.create<MathpixService>()
         val base64 = bitmap.value?.let { bitmap2Base64(it) }!!
+
         val data1 = JSONObject().apply {
             put("src", "data:image/png;base64,$base64")
         }
 
         val requestBody = data1.toString().toRequestBody("application/json".toMediaTypeOrNull());
 
-        mathpixService.getMathpixData(requestBody).enqueue(object : Callback<MathpixResponse> {
-            override fun onResponse(
-                call: Call<MathpixResponse>,
-                response: Response<MathpixResponse>
-            ) {
-                response.body()?.let {
-                    if (it.error?.isEmpty() == true) {
-                        _mathpixData.state.value = it.error
-                    } else {
-                        _mathpixData.data.value = it
+        mathpixService.getMathpixData(appID, appKey, requestBody)
+            .enqueue(object : Callback<MathpixResponse> {
+                override fun onResponse(
+                    call: Call<MathpixResponse>,
+                    response: Response<MathpixResponse>
+                ) {
+                    response.body()?.let {
+                        if (it.error?.isEmpty() == true) {
+                            _mathpixData.state.value = it.error
+                        } else {
+                            _mathpixData.data.value = it
+                        }
+                    }
+                    response.errorBody()?.let {
+                        val jsonObject = JSONObject(it.string())
+                        _mathpixData.state.value = jsonObject.getString("error")
                     }
                 }
-            }
 
-            override fun onFailure(call: Call<MathpixResponse>, t: Throwable) {
-                _mathpixData.state.value = t.message
-            }
-        })
+                override fun onFailure(call: Call<MathpixResponse>, t: Throwable) {
+                    _mathpixData.state.value = t.message
+                }
+            })
     }
 
     private fun bitmap2Base64(bitmap: Bitmap): String {

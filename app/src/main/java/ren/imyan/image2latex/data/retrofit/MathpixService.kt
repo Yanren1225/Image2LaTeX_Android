@@ -15,5 +15,9 @@ import java.io.Console
  */
 interface MathpixService {
     @POST("v3/text")
-    fun getMathpixData(@Body data: RequestBody): Call<MathpixResponse>
+    fun getMathpixData(
+        @Header("app_id") appID: String,
+        @Header("app_key") appKey: String,
+        @Body data: RequestBody
+    ): Call<MathpixResponse>
 }
