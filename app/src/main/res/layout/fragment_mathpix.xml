@@ -209,6 +209,50 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/show_result_error_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_marginStart="@dimen/card_margin_horizontal_big_activity"
+                    android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
+                    android:layout_marginEnd="@dimen/card_margin_horizontal_big_activity"
+                    android:layout_marginBottom="@dimen/card_margin_vertical_big_activity"
+                    android:visibility="gone"
+                    app:cardElevation="0dp"
+                    app:strokeColor="@color/stroke_color"
+                    app:strokeWidth="2dp">
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:text="Error "
+                            android:textAppearance="?attr/textAppearanceHeadline1"
+                            android:textColor="?android:attr/textColorHint"
+                            android:textStyle="bold|italic"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/result_error"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:padding="8dp"
+                            android:textAppearance="?attr/textAppearanceHeadline5"
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:textStyle="bold" />
+
+                    </FrameLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

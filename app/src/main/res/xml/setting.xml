@@ -1,14 +1,23 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreferenceCompat
-        app:key="notifications"
-        app:title="Enable message notifications" />
+    <EditTextPreference
+        app:key="app_id"
+        app:title="App ID" />
+
+    <EditTextPreference
+        app:key="app_key"
+        app:title="App Key" />
 
     <Preference
-        app:key="feedback"
-        app:summary="Report technical issues or suggest new features"
-        app:title="Send feedback" />
+        app:key="get_api"
+        app:title="@string/get_api_key">
 
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="http://www.google.com" />
+
+    </Preference>
 
     <Preference
         app:key="about"

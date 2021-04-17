@@ -21,6 +21,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.adapters.ViewGroupBindingAdapter.setListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionManager
+import com.ethanhua.skeleton.Skeleton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialArcMotion
@@ -48,7 +49,7 @@ import ren.imyan.image2latex.util.dp
 class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>() {
 
     private val shortAnimationDuration by lazy {
-        context?.resources?.getInteger(android.R.integer.config_longAnimTime)?.toLong()
+        context?.resources?.getInteger(android.R.integer.config_longAnimTime)?.toLong()!!
     }
 
     private val toolbarSize by lazy {
@@ -61,6 +62,18 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
         }
     }
 
+    private val resultTextSkeletonScreen by lazy {
+        Skeleton.bind(binding.resultText)
+            .load(R.layout.layout_img_skeleton)
+            .build()
+    }
+
+    private val resultLatexSkeletonScreen by lazy {
+        Skeleton.bind(binding.resultLatex)
+            .load(R.layout.layout_img_skeleton)
+            .build()
+    }
+
     override fun initViewModel(): MathpixViewModel =
         ViewModelProvider(this)[MathpixViewModel::class.java]
 
@@ -70,6 +83,15 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
     ): FragmentMathpixBinding = FragmentMathpixBinding.inflate(inflater, container, false)
 
     override fun initView() {
+
+        TransitionManager.beginDelayedTransition(binding.showResultTextCard, MaterialFade().apply {
+            duration = shortAnimationDuration
+        })
+
+        TransitionManager.beginDelayedTransition(binding.showResultLatexCard, MaterialFade().apply {
+            duration = shortAnimationDuration
+        })
+
 
         val cropImage =
             registerForActivityResult(CropImage()) {
@@ -97,7 +119,7 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
         }
 
         binding.processImage.setOnClickListener {
-//            viewModel.getMathpixData()
+            viewModel.getMathpixData()
             binding.showResultCard()
         }
     }
@@ -114,11 +136,21 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
         }
 
         viewModel.mathpixData.data.observe(this) {
-            Log.d("mathpix_data", it.toString())
+            binding.apply {
+                resultText.text = it.text
+                resultLatex.setText(it.latexStyled)
+                resultLatexSkeletonScreen.hide()
+                resultTextSkeletonScreen.hide()
+            }
         }
 
         viewModel.mathpixData.state.observe(this) {
-            Log.d("mathpix_state", it)
+            binding.apply {
+                showResultLatexCard.isVisible = false
+                showResultTextCard.isVisible = false
+                showResultErrorCard.isVisible = true
+                resultError.text = it
+            }
         }
     }
 
@@ -191,14 +223,12 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
     @SuppressLint("SetTextI18n")
     private fun FragmentMathpixBinding.showResultCard() {
 
-        binding.resultText.text = """
-            \( \lim _{x \rightarrow 3}\left(\frac{x^{2}+9}{x-3}\right) \)
-        """.trimIndent()
-        binding.resultLatex.setText("$$\\lim _{x \\rightarrow 3}\\left(\\frac{x^{2}+9}{x-3}\\right)$$")
+//        binding.resultText.text = """
+//            \( \lim _{x \rightarrow 3}\left(\frac{x^{2}+9}{x-3}\right) \)
+//        """.trimIndent()
+//        binding.resultLatex.setText("$$\\lim _{x \\rightarrow 3}\\left(\\frac{x^{2}+9}{x-3}\\right)$$")
 
-        TransitionManager.beginDelayedTransition(showResultTextCard, MaterialFade().apply {
-            duration = 500
-        })
+
         showResultTextCard.isVisible = true
 
         TransitionManager.beginDelayedTransition(showResultLatexCard, MaterialFade().apply {
@@ -206,6 +236,8 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
         })
         showResultLatexCard.isVisible = true
 
+        resultLatexSkeletonScreen.show()
+        resultTextSkeletonScreen.show()
     }
 
 
