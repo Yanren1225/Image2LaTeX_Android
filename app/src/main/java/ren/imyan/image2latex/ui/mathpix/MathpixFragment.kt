@@ -1,25 +1,19 @@
 package ren.imyan.image2latex.ui.mathpix
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnticipateInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.view.animation.OvershootInterpolator
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.animation.addListener
-import androidx.core.animation.doOnEnd
 import androidx.core.view.isVisible
-import androidx.databinding.adapters.ViewGroupBindingAdapter.setListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionManager
 import com.ethanhua.skeleton.Skeleton
@@ -29,19 +23,16 @@ import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialFade
 import com.google.android.material.transition.MaterialFadeThrough
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import ren.imyan.base.ActivityCollector.currActivity
-import ren.imyan.base.BaseFragment
+import ren.imyan.fragment.BaseFragment
 import ren.imyan.image2latex.R
+import ren.imyan.image2latex.core.App
 import ren.imyan.image2latex.core.CropImage
 import ren.imyan.image2latex.core.CropImageResult
 import ren.imyan.image2latex.databinding.FragmentMathpixBinding
 import ren.imyan.image2latex.ui.main.MainActivity
-import ren.imyan.image2latex.util.SP
-import ren.imyan.image2latex.util.dp
+import ren.imyan.image2latex.util.saveImageToFile
 import ren.imyan.image2latex.util.string
 
 /**
@@ -78,7 +69,10 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
     }
 
     override fun initViewModel(): MathpixViewModel =
-        ViewModelProvider(this)[MathpixViewModel::class.java]
+        ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory(currActivity.application)
+        )[MathpixViewModel::class.java]
 
     override fun initBinding(
         inflater: LayoutInflater,
@@ -140,7 +134,7 @@ class MathpixFragment : BaseFragment<FragmentMathpixBinding, MathpixViewModel>()
     }
 
     @SuppressLint("SetTextI18n")
-    override fun loadDate() {
+    override fun loadData() {
         viewModel.bitmap.observe(this) {
             binding.apply {
                 showImage.setImageBitmap(it)

@@ -1,33 +1,46 @@
 package ren.imyan.image2latex.ui.mathpix
 
+import android.app.Application
 import android.graphics.Bitmap
-import android.util.Base64
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import okhttp3.MediaType
+import androidx.room.Room
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
+import ren.imyan.image2latex.core.App
+import ren.imyan.image2latex.core.AppDatabase
 import ren.imyan.image2latex.core.ServiceCreator
 import ren.imyan.image2latex.data.MutableConvertData
 import ren.imyan.image2latex.data.model.ConvertData
-import ren.imyan.image2latex.data.model.moshi.MathpixRequest
+import ren.imyan.image2latex.data.model.MathpixHistory
 import ren.imyan.image2latex.data.model.moshi.MathpixResponse
 import ren.imyan.image2latex.data.retrofit.MathpixService
 import ren.imyan.image2latex.util.SP
+import ren.imyan.image2latex.util.base64
+import ren.imyan.image2latex.util.saveImageToFile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.converter.moshi.MoshiConverterFactory
-import java.io.ByteArrayOutputStream
 
 /**
  * @author EndureBlaze/炎忍 https://github.com/EndureBlaze
  * @data 2021-04-14 19:49
  * @website https://imyan.ren
  */
-class MathpixViewModel : ViewModel() {
+class MathpixViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val db by lazy {
+        Room.databaseBuilder(
+            App.appContext,
+            AppDatabase::class.java, "database-name"
+        ).build()
+    }
+
 
     private val appID by SP.string("app_id", "", "ren.imyan.image2latex_preferences")
     private val appKey by SP.string("app_key", "", "ren.imyan.image2latex_preferences")
@@ -40,8 +53,13 @@ class MathpixViewModel : ViewModel() {
     private val _mathpixData = MutableConvertData<MathpixResponse>()
 
     fun getMathpixData() {
+
+        CoroutineScope(Dispatchers.Main).launch {
+            saveHistory()
+        }
+
         val mathpixService = ServiceCreator.create<MathpixService>()
-        val base64 = bitmap.value?.let { bitmap2Base64(it) }!!
+        val base64 = bitmap.value?.base64.toString()
 
         val data1 = JSONObject().apply {
             put("src", "data:image/png;base64,$base64")
@@ -74,11 +92,10 @@ class MathpixViewModel : ViewModel() {
             })
     }
 
-    private fun bitmap2Base64(bitmap: Bitmap): String {
-        return ByteArrayOutputStream().run {
-            bitmap.compress(Bitmap.CompressFormat.PNG, 40, this)
-            val bytes: ByteArray = this.toByteArray()
-            Base64.encodeToString(bytes, Base64.NO_WRAP)
+    private suspend fun saveHistory() = withContext(Dispatchers.IO) {
+        bitmap.value?.let {
+            val fileName = getApplication<App>().saveImageToFile(it).toString()
+            db.historyDao().insertAll(MathpixHistory(imageFilename = fileName))
         }
     }
 }

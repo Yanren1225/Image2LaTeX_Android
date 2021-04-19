@@ -42,7 +42,7 @@ class AboutActivity : BaseUIActivity<ActivityAboutBinding, AboutViewModel>() {
             .beginTransaction()
             .replace(binding.aboutFragment.id, AboutFragment())
             .commit()
-        binding.setVersion("${AppInfoUtil.versionName} <${AppInfoUtil.versionCode}>")
+        binding.version = "${AppInfoUtil.versionName} <${AppInfoUtil.versionCode}>"
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

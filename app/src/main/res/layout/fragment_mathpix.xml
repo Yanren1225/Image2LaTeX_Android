@@ -14,18 +14,11 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/select_image_card"
-            style="?android:attr/buttonBarButtonStyle"
+            style="@style/Widget.Image2Latex.Card.Outline"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"
-            android:layout_marginStart="@dimen/card_margin_horizontal_big_activity"
-            android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
-            android:layout_marginEnd="@dimen/card_margin_horizontal_big_activity"
-            android:layout_marginBottom="@dimen/card_margin_vertical_big_activity"
-            android:background="?attr/selectableItemBackground"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/stroke_color"
-            app:strokeWidth="2dp">
+            android:clickable="true"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,17 +63,10 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/show_image_card"
+                    style="@style/Widget.Image2Latex.Card.Outline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_marginStart="@dimen/card_margin_horizontal_big_activity"
-                    android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
-                    android:layout_marginEnd="@dimen/card_margin_horizontal_big_activity"
-                    android:layout_marginBottom="@dimen/card_margin_vertical_big_activity"
-                    android:visibility="gone"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/stroke_color"
-                    app:strokeWidth="2dp">
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/show_image"
@@ -122,17 +108,10 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/show_result_text_card"
+                    style="@style/Widget.Image2Latex.Card.Outline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_marginStart="@dimen/card_margin_horizontal_big_activity"
-                    android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
-                    android:layout_marginEnd="@dimen/card_margin_horizontal_big_activity"
-                    android:layout_marginBottom="@dimen/card_margin_vertical_big_activity"
-                    android:visibility="gone"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/stroke_color"
-                    app:strokeWidth="2dp">
+                    android:visibility="gone">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -167,17 +146,10 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/show_result_latex_card"
+                    style="@style/Widget.Image2Latex.Card.Outline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_marginStart="@dimen/card_margin_horizontal_big_activity"
-                    android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
-                    android:layout_marginEnd="@dimen/card_margin_horizontal_big_activity"
-                    android:layout_marginBottom="@dimen/card_margin_vertical_big_activity"
-                    android:visibility="gone"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/stroke_color"
-                    app:strokeWidth="2dp">
+                    android:visibility="gone">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -211,19 +183,12 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/show_result_error_card"
-                    style="?android:attr/buttonBarButtonStyle"
+                    style="@style/Widget.Image2Latex.Card.Outline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_marginStart="@dimen/card_margin_horizontal_big_activity"
-                    android:layout_marginTop="@dimen/card_margin_vertical_big_activity"
-                    android:layout_marginEnd="@dimen/card_margin_horizontal_big_activity"
-                    android:layout_marginBottom="@dimen/card_margin_vertical_big_activity"
-                    android:background="?attr/selectableItemBackground"
                     android:visibility="gone"
-                    app:cardElevation="0dp"
-                    app:strokeColor="@color/stroke_color"
-                    app:strokeWidth="2dp">
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <FrameLayout
                         android:layout_width="match_parent"
