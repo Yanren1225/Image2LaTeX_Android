@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
+import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.Moshi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,14 +20,17 @@ import ren.imyan.image2latex.core.ServiceCreator
 import ren.imyan.image2latex.data.MutableConvertData
 import ren.imyan.image2latex.data.model.ConvertData
 import ren.imyan.image2latex.data.model.MathpixHistory
+import ren.imyan.image2latex.data.model.moshi.MathpixRequestOption
 import ren.imyan.image2latex.data.model.moshi.MathpixResponse
 import ren.imyan.image2latex.data.retrofit.MathpixService
 import ren.imyan.image2latex.util.SP
 import ren.imyan.image2latex.util.base64
 import ren.imyan.image2latex.util.saveImageToFile
+import ren.imyan.image2latex.util.toJson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 
 /**
  * @author EndureBlaze/炎忍 https://github.com/EndureBlaze
@@ -52,20 +57,16 @@ class MathpixViewModel(application: Application) : AndroidViewModel(application)
 
     private val _mathpixData = MutableConvertData<MathpixResponse>()
 
-    fun getMathpixData() {
+    fun getMathpixData() = CoroutineScope(Dispatchers.IO).launch {
 
-        CoroutineScope(Dispatchers.Main).launch {
-            saveHistory()
-        }
+        saveHistory()
 
         val mathpixService = ServiceCreator.create<MathpixService>()
         val base64 = bitmap.value?.base64.toString()
 
-        val data1 = JSONObject().apply {
-            put("src", "data:image/png;base64,$base64")
-        }
+        val option = JSONObject(MathpixRequestOption("data:image/png;base64,$base64").toJson<MathpixRequestOption>())
 
-        val requestBody = data1.toString().toRequestBody("application/json".toMediaTypeOrNull());
+        val requestBody = option.toString().toRequestBody("application/json".toMediaTypeOrNull());
 
         mathpixService.getMathpixData(appID, appKey, requestBody)
             .enqueue(object : Callback<MathpixResponse> {
@@ -74,15 +75,17 @@ class MathpixViewModel(application: Application) : AndroidViewModel(application)
                     response: Response<MathpixResponse>
                 ) {
                     response.body()?.let {
-                        if (it.error?.isEmpty() == true) {
-                            _mathpixData.state.value = it.error
+                        if (it.error?.isNotEmpty() == true) {
+                            _mathpixData.state.value = it.error.toString()
                         } else {
                             _mathpixData.data.value = it
                         }
                     }
                     response.errorBody()?.let {
-                        val jsonObject = JSONObject(it.string())
-                        _mathpixData.state.value = jsonObject.getString("error")
+                        kotlin.runCatching {
+                            val jsonObject = JSONObject(it.string())
+                            _mathpixData.state.value = jsonObject.getString("error")
+                        }
                     }
                 }
 

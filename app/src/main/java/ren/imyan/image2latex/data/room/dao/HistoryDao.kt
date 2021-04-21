@@ -1,5 +1,7 @@
 package ren.imyan.image2latex.data.room.dao
 
+import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.*
 import ren.imyan.image2latex.data.model.MathpixHistory
 
@@ -11,8 +13,8 @@ import ren.imyan.image2latex.data.model.MathpixHistory
 @Dao
 interface HistoryDao {
     @Transaction
-    @Query("SELECT * FROM history")
-    fun getAll(): List<MathpixHistory>
+    @Query("SELECT * FROM history ORDER by uid desc")
+    fun getAll(): PagingSource<Int, MathpixHistory>
 
     @Insert
     fun insertAll(vararg mathpixHistorys: MathpixHistory)

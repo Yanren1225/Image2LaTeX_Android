@@ -10,7 +10,7 @@ import com.squareup.moshi.ToJson
  * @website https://imyan.ren
  */
 @JsonClass(generateAdapter = true)
-data class MathpixRequest(
+data class MathpixRequestOption(
     @Json(name = "src")
     val imageBase64: String
 )
